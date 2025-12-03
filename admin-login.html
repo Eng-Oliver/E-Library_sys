@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل دخول الأدمن | المكتبة الإلكترونية</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0A3A6F 0%, #4DB8FF 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .login-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+            .login-card h2 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: white;
+            }
+
+        .btn-login {
+            background-color: #4DB8FF;
+            border: none;
+            color: white;
+            font-weight: bold;
+        }
+
+            .btn-login:hover {
+                background-color: #0A3A6F;
+            }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .alert {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>تسجيل دخول الأدمن </h2>
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="username" class="form-label">اسم المستخدم</label>
+                <input type="text" id="username" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">كلمة المرور</label>
+                <input type="password" id="password" class="form-control" required />
+            </div>
+            <div class="alert alert-danger" id="error-msg"> اسم المستخدم أو كلمة المرور غير صحيحة</div>
+            <button type="submit" class="btn btn-login w-100 mt-3">تسجيل الدخول</button>
+        </form>
+    </div>
+
+    <script>
+    const loginForm = document.getElementById("loginForm");
+    const errorMsg = document.getElementById("error-msg");
+
+    loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      
+      if (username === "admin" && password === "12345") {
+        
+        localStorage.setItem("isAdminLoggedIn", "true");
+        window.location.href = "admin-dashboard.html";
+      } else {
+        errorMsg.style.display = "block";
+      }
+    });
+    </script>
+</body>
+</html>

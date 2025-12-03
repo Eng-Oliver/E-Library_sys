@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | المكتبة الإلكترونية</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f8fa;
+            font-family: 'Cairo', sans-serif;
+            transition: background 0.5s, color 0.5s;
+        }
+
+            body.dark {
+                background-color: #1a1c1f;
+                color: #eee;
+            }
+
+        .navbar {
+            background: linear-gradient(135deg, #0A3A6F 0%, #4DB8FF 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            color: #fff !important;
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: auto;
+        }
+
+        #themeToggle {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: white;
+            transition: transform 0.3s;
+        }
+
+            #themeToggle:hover {
+                transform: scale(1.2);
+            }
+
+        .login-box {
+            max-width: 420px;
+            margin: 120px auto 80px;
+            padding: 35px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: right;
+            direction: rtl;
+            animation: fadeIn 0.6s ease;
+        }
+
+        body.dark .login-box {
+            background: #2a2d31;
+            color: #eee;
+        }
+
+        h2 {
+            color: #0a3a6f;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        body.dark h2 {
+            color: #4DB8FF;
+        }
+
+        .btn-primary {
+            background-color: #0a3a6f;
+            border: none;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+        }
+
+            .btn-primary:hover {
+                background-color: #08305c;
+            }
+
+        .login-box a {
+            text-decoration: none;
+            color: #0a3a6f;
+            font-weight: 600;
+        }
+
+            .login-box a:hover {
+                color: #4DB8FF;
+            }
+
+        footer {
+            background: #0A3A6F;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            margin-top: 50px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ✅ Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="home.html">📚 المكتبة الإلكترونية</a>
+            <div class="nav-buttons d-flex align-items-center">
+                <div id="userControls" class="d-flex align-items-center"></div>
+                <button id="themeToggle" title="تبديل الوضع">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ✅ Login Box -->
+    <div class="login-box">
+        <h2>تسجيل الدخول</h2>
+        <form id="loginForm">
+            <div class="mb-3">
+                <label class="form-label">البريد الإلكتروني</label>
+                <input type="email" id="email" class="form-control text-end" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">كلمة المرور</label>
+                <input type="password" id="password" class="form-control text-end" required minlength="4">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">تسجيل الدخول</button>
+        </form>
+
+        <p id="message" class="mt-3 text-center text-danger"></p>
+        <p class="mt-3 text-center">ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a></p>
+    </div>
+
+    <footer>
+        <p>© 2025 المكتبة الإلكترونية | تصميم بواسطة Eng Abdullah Ahmed</p>
+    </footer>
+
+    <script>
+        // 🌙 الوضع الليلي
+        const themeToggle = document.getElementById("themeToggle");
+        const body = document.body;
+        if (localStorage.getItem("theme") === "dark") {
+            body.classList.add("dark");
+            themeToggle.textContent = "☀️";
+        }
+        themeToggle.addEventListener("click", () => {
+            body.classList.toggle("dark");
+            const isDark = body.classList.contains("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            themeToggle.textContent = isDark ? "☀️" : "🌙";
+        });
+
+        // 👤 أزرار المستخدم
+        const userControls = document.getElementById("userControls");
+        const isLoggedIn = localStorage.getItem("isUserLoggedIn") === "true";
+        const userName = localStorage.getItem("userName") || "";
+        if (isLoggedIn) {
+            userControls.innerHTML = `
+            <span class="text-white me-3">👋 ${userName}</span>
+            <button id="logoutBtn" class="btn btn-outline-light btn-sm">تسجيل الخروج</button>`;
+            document.getElementById("logoutBtn").addEventListener("click", () => {
+                localStorage.clear();
+                window.location.href = "home.html";
+            });
+        } else {
+            userControls.innerHTML = `
+            <a href="login.html" class="btn btn-light btn-sm">تسجيل الدخول</a>
+            <a href="register.html" class="btn btn-outline-light btn-sm ms-2">إنشاء حساب</a>`;
+        }
+
+        // ✅ تسجيل الدخول
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const message = document.getElementById("message");
+
+            try {
+                const response = await fetch("http://localhost:5157/api/UsersApi/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // حفظ بيانات المستخدم في LocalStorage
+                    localStorage.setItem("userId", data.id);
+                    localStorage.setItem("userName", data.name || "مستخدم");
+                    localStorage.setItem("userEmail", data.email || email);
+                    localStorage.setItem("isUserLoggedIn", "true");
+
+                    message.style.color = "green";
+                    message.textContent = "تم تسجيل الدخول بنجاح ✅";
+
+                    const lastPage = localStorage.getItem("lastPage") || "user-profile.html";
+                    setTimeout(() => window.location.href = lastPage, 1000);
+                } else {
+                    message.textContent = data.message || "بيانات الدخول غير صحيحة ⚠️";
+                }
+            } catch (error) {
+                message.textContent = "حدث خطأ أثناء الاتصال بالخادم ⚠️";
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
