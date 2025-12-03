@@ -1,238 +1,550 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>📚 المكتبة الإلكترونية</title>
+    <title>المكتبة الذكية | اكتشف عالم الكتب</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: "Cairo", sans-serif;
-            background: #f7f9fc;
-            transition: background 0.5s, color 0.5s;
-            direction: rtl;
-            overflow-x: hidden;
+        :root {
+            --primary: #1e3c72;
+            --primary-light: #2a5298;
+            --accent: #00bfa5;
+            --accent-light: #26dcc0;
+            --dark-bg: #0f1419;
+            --dark-card: #1a1f2e;
+            --light-bg: #f8f9fa;
+            --light-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border: #e0e0e0;
         }
 
-            body.dark {
-                background: #1a1c1f;
-                color: #eee;
-            }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* Navbar */
+        body {
+            font-family: "Poppins", sans-serif;
+            background: var(--light-bg);
+            color: var(--text-primary);
+            transition: background 0.4s, color 0.4s;
+            direction: rtl;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body.dark {
+            background: var(--dark-bg);
+            color: #f0f0f0;
+        }
+
+        /* ===== NAVBAR ===== */
         .navbar {
-            background: linear-gradient(135deg, #0A3A6F 0%, #4DB8FF 100%);
-            box-shadow: 0 3px 15px rgba(0,0,0,0.15);
-            padding: 10px 0;
+            background: var(--light-card);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        body.dark .navbar {
+            background: var(--dark-card);
+            border-bottom-color: #333;
         }
 
         .navbar-brand {
-            color: #fff !important;
-            font-weight: 900;
-            font-size: 1.5rem;
+            color: var(--primary) !important;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
         }
 
-        /* 🔍 Search Box */
         .nav-search {
             flex: 1;
-            max-width: 480px;
+            max-width: 400px;
             display: flex;
             align-items: center;
-            background: white;
+            background: var(--light-bg);
+            border: 2px solid var(--border);
             border-radius: 50px;
             overflow: hidden;
-            margin: 0 20px;
-            transition: 0.3s;
-        }
-
-            .nav-search input {
-                flex: 1;
-                border: none;
-                padding: 10px 16px;
-                font-size: 1rem;
-                outline: none;
-            }
-
-            .nav-search button {
-                background: #0A3A6F;
-                border: none;
-                color: white;
-                padding: 10px 18px;
-                font-size: 1.1rem;
-                cursor: pointer;
-            }
-
-            .nav-search:focus-within {
-                box-shadow: 0 0 8px rgba(13,110,253,0.4);
-            }
-
-        /* 🦋 Book Cards */
-        .book-card {
-            border: none;
-            border-radius: 18px;
-            overflow: hidden;
+            margin: 0 30px;
             transition: all 0.3s ease;
-            background: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-            .book-card:hover {
-                transform: translateY(-6px);
-                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            }
-
-        body.dark .book-card {
-            background: #2a2d31;
+        body.dark .nav-search {
+            background: #1a1f2e;
+            border-color: #333;
         }
 
-        .book-card img {
-            height: 260px;
-            width: 100%;
-            object-fit: cover;
-            border-bottom: 3px solid #4DB8FF;
+        .nav-search:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 191, 165, 0.15);
         }
 
-        .book-card .card-body {
-            padding: 15px;
-            text-align: center;
+        .nav-search input {
+            flex: 1;
+            border: none;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            outline: none;
+            background: transparent;
+            color: var(--text-primary);
         }
 
-        .book-card h5 {
-            color: #0A3A6F;
-            font-weight: 700;
+        body.dark .nav-search input {
+            color: #f0f0f0;
+        }
+
+        .nav-search input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .nav-search button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            padding: 10px 18px;
+            cursor: pointer;
             font-size: 1.1rem;
+            transition: color 0.3s;
         }
 
-        body.dark .book-card h5 {
-            color: #4DB8FF;
+        .nav-search button:hover {
+            color: var(--accent);
         }
 
-        .book-meta {
-            font-size: 0.9rem;
-            color: #555;
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        body.dark .book-meta {
-            color: #ccc;
-        }
-
-        .book-meta span {
-            display: block;
-            margin-top: 3px;
-        }
-
-        .btn-main {
-            background-color: #4DB8FF;
-            color: white;
-            border-radius: 8px;
-            padding: 6px 14px;
-            transition: 0.3s;
-        }
-
-            .btn-main:hover {
-                background-color: #0A3A6F;
-                color: #fff;
-            }
-
-        /* 🧭 Section Titles */
-        .section-title {
-            color: #0A3A6F;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        body.dark .section-title {
-            color: #4DB8FF;
-        }
-
-        /* 🌙 Theme Toggle */
         #themeToggle {
             background: none;
             border: none;
             font-size: 1.3rem;
-            color: white;
+            cursor: pointer;
             transition: transform 0.3s;
+            color: var(--primary);
         }
 
-            #themeToggle:hover {
-                transform: scale(1.2);
-            }
+        #themeToggle:hover {
+            transform: rotate(20deg);
+        }
 
+        .btn-nav {
+            padding: 6px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-nav-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-nav-primary:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-nav-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-nav-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 120px 0 80px;
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(0, 191, 165, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            left: 10%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -50px;
+            right: 5%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .hero-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 191, 165, 0.3);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        body.dark .section-title {
+            color: var(--accent-light);
+        }
+
+        /* ===== BOOK CARDS ===== */
+        .book-card {
+            background: var(--light-card);
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.dark .book-card {
+            background: var(--dark-card);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .book-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        body.dark .book-card:hover {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            position: relative;
+        }
+
+        .book-card img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.1) 100%);
+        }
+
+        .book-card-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-card h5 {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        body.dark .book-card h5 {
+            color: var(--accent-light);
+        }
+
+        .book-author {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        body.dark .book-author {
+            color: #b0b0b0;
+        }
+
+        .book-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        body.dark .book-meta {
+            color: #b0b0b0;
+        }
+
+        .book-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-read {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .btn-read:hover {
+            background: var(--accent);
+            transform: translateX(-2px);
+        }
+
+        /* ===== LAYOUT ===== */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .books-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+
+        /* ===== FOOTER ===== */
         footer {
-            background-color: #0A3A6F;
+            background: var(--primary);
             color: white;
             text-align: center;
-            padding: 25px 0;
-            margin-top: 60px;
+            padding: 40px 0;
+            margin-top: 80px;
+            border-top: 1px solid rgba(0, 191, 165, 0.2);
         }
 
-        /* Animation */
+        body.dark footer {
+            background: #0a0e13;
+        }
+
+        /* ===== ANIMATIONS ===== */
         .fade-in {
-            animation: fadeIn 0.7s ease;
+            animation: fadeIn 0.6s ease-out;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        .stagger-in > * {
+            animation: fadeIn 0.6s ease-out backwards;
+        }
+
+        .stagger-in > *:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-in > *:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-in > *:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-in > *:nth-child(4) { animation-delay: 0.4s; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .nav-search {
+                max-width: 300px;
+                margin: 0 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0.5rem 0;
+            }
+
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+
+            .nav-search {
+                max-width: 100%;
+                margin: 0 10px;
+            }
+
+            .nav-controls {
+                gap: 10px;
+            }
+
+            .section {
+                padding: 50px 0;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+                margin-top: 60px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- ✅ Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-            <a class="navbar-brand ms-3" href="home.html">📚 المكتبة الإلكترونية</a>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-lg d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="home.html">📚 المكتبة الذكية</a>
 
             <div class="nav-search">
-                <input type="text" id="searchInput" placeholder="ابحث عن كتاب، مؤلف، أو موضوع..." />
+                <input type="text" id="searchInput" placeholder="ابحث عن كتاب أو مؤلف..." />
                 <button id="searchBtn">🔍</button>
             </div>
 
-            <!-- ✅ أزرار المستخدم -->
-            <div class="d-flex align-items-center me-3">
-                <div id="userControls" class="me-2"></div>
+            <div class="nav-controls">
+                <div id="userControls"></div>
                 <button id="themeToggle" title="تبديل الوضع">🌙</button>
             </div>
         </div>
     </nav>
 
-    <!-- 🏠 Hero -->
-    <section class="hero text-center py-5 mt-5" style="background:linear-gradient(135deg,#0A3A6F,#4DB8FF);color:white;">
-        <div class="container">
-            <h1 class="fw-bold">مرحبًا بك في مكتبتك الذكية</h1>
-            <p>ابحث، استكشف، واقرأ أفضل الكتب المقترحة خصيصًا لك باستخدام الذكاء الاصطناعي 🤖</p>
-            <a href="books.html" class="btn btn-warning mt-3 px-4 rounded-pill">📚 تصفح جميع الكتب</a>
+    <section class="hero">
+        <div class="container-lg">
+            <div class="hero-content text-center">
+                <h1>اكتشف عالم الكتب</h1>
+                <p>استكشف مجموعة كبيرة من الكتب وابحث عن كتابك المفضل القادم</p>
+                <a href="books.html" class="hero-btn">تصفح الكتب</a>
+            </div>
         </div>
     </section>
 
-    <!-- 🔥 Book Sections -->
-    <section class="container py-5 fade-in">
-        <h3 class="section-title">نرشح لك خصيصًا</h3>
-        <div id="recommended-books" class="row g-4"></div>
+    <section class="section">
+        <div class="container-lg fade-in">
+            <h2 class="section-title">نرشح لك خصيصًا</h2>
+            <div id="recommended-books" class="books-grid stagger-in"></div>
+        </div>
     </section>
 
-    <section class="container py-5 fade-in">
-        <h3 class="section-title">الأكثر قراءة</h3>
-        <div id="popular-books" class="row g-4"></div>
+    <section class="section">
+        <div class="container-lg fade-in">
+            <h2 class="section-title">الأكثر قراءة</h2>
+            <div id="popular-books" class="books-grid stagger-in"></div>
+        </div>
     </section>
 
-    <section class="container py-5 fade-in">
-        <h3 class="section-title">إصدارات جديدة</h3>
-        <div id="new-books" class="row g-4"></div>
+    <section class="section">
+        <div class="container-lg fade-in">
+            <h2 class="section-title">إصدارات جديدة</h2>
+            <div id="new-books" class="books-grid stagger-in"></div>
+        </div>
     </section>
 
     <footer>
-        <p>© 2025 المكتبة الإلكترونية | تصميم احترافي بواسطة Eng Abdullah Ahmed</p>
+        <p>© 2025 المكتبة الذكية | تصميم وتطوير بعناية</p>
     </footer>
 
     <script>
@@ -296,29 +608,28 @@
             const c = document.getElementById(id);
             c.innerHTML = '';
             if (!books.length) {
-                c.innerHTML = '<p class="text-muted text-center">لا توجد كتب حالياً.</p>';
+                c.innerHTML = '<p class="text-muted text-center w-100">لا توجد كتب حالياً.</p>';
                 return;
             }
             books.forEach(b => {
                 const genreName = b.genre?.name || "غير محدد";
-                const ratingValue = b.rating ? b.rating.toFixed(1) : "غير متوفر";
+                const ratingValue = b.rating ? b.rating.toFixed(1) : "—";
                 const pages = b.pageCount || "—";
                 const card = document.createElement('div');
-                card.className = 'col-12 col-sm-6 col-md-4 col-lg-3';
+                card.className = 'book-card';
                 card.innerHTML = `
-              <div class="card book-card h-100">
-                <img src="${b.coverUrl || 'https://source.unsplash.com/400x250/?book'}" alt="${b.title}">
-                <div class="card-body">
-                  <h5>${b.title}</h5>
-                  <div class="book-meta">
-                    <span>👤 ${b.author}</span>
-                    <span>📘 التصنيف: ${genreName}</span>
-                    <span>⭐ التقييم: ${ratingValue}</span>
-                    <span>📖 الصفحات: ${pages}</span>
+                  <img src="${b.coverUrl || 'https://source.unsplash.com/240x300/?book'}" alt="${b.title}">
+                  <div class="book-card-body">
+                    <h5>${b.title}</h5>
+                    <div class="book-author">${b.author}</div>
+                    <div class="book-meta">
+                      <span>📘 ${genreName}</span>
+                      <span>⭐ ${ratingValue}</span>
+                      <span>📖 ${pages} صفحة</span>
+                    </div>
+                    <button class="btn-read" onclick="readBook(${b.id})">اقرأ الآن</button>
                   </div>
-                  <button class="btn btn-main btn-sm mt-2" onclick="readBook(${b.id})">📖 اقرأ الآن</button>
-                </div>
-              </div>`;
+                `;
                 c.appendChild(card);
             });
         }
